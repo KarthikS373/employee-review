@@ -1,4 +1,4 @@
-import { MONGO_URI } from './environment'
+import { MONGO_URI } from './environment.js'
 
 export const getMongoURI = () => {
   if (!MONGO_URI) {

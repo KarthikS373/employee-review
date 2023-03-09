@@ -47,5 +47,6 @@ module.exports = {
     'simple-import-sort/imports': 1,
     'simple-import-sort/exports': 1,
     'import/prefer-default-export': 1,
+    'import/extensions': 1,
   },
 }
