@@ -1,4 +1,4 @@
-import { PORT } from './environment'
+import { PORT } from './environment.js'
 
 export const getPort = () => {
   if (!PORT) {

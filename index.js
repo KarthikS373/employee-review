@@ -1,13 +1,17 @@
 import bodyParser from 'body-parser'
 import Express, { static as serveStaticFiles } from 'express'
 import mongoose from 'mongoose'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-import { getMongoURI } from './utils/constants/db'
-import { getPort } from './utils/constants/port'
-import router from './routes'
+import router from './routes/index.js'
+import { getMongoURI } from './utils/constants/db.js'
+import { getPort } from './utils/constants/port.js'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 const app = Express()
-const path = __dirname
 
 const PORT = getPort()
 const MONGO_URI = getMongoURI()
@@ -21,14 +25,14 @@ app.use(serveStaticFiles('public'))
 
 // set the view engine to ejs
 app.set('view engine', 'ejs')
-app.set('views', `${path}/views`)
+app.set('views', `${dirname}/views/pages`)
 
 // Route handling
 app.use('/', router)
 
 // Error handling
 // Error 500 - Internal Server Error
-app.error((error, req, res, next) => {
+app.use((error, req, res, next) => {
   console.log(`Internal Server Error: ${error.message}`)
   res.render('500')
 })
@@ -44,14 +48,9 @@ const main = async () => {
     .connect(MONGO_URI)
     .then(() => {
       console.log(`Mongo Connection successful`)
-      app
-        .listen(PORT)
-        .then(() => {
-          console.log(`Server started at http://localhost:${PORT}`)
-        })
-        .catch((e) => {
-          throw new Error(e)
-        })
+      app.listen(PORT, () => {
+        console.log(`Server started at http://localhost:${PORT}`)
+      })
     })
     .catch((e) => {
       console.log(`Something went wrong...`)
