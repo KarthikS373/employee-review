@@ -29,6 +29,9 @@ app.use(serveStaticFiles('public'))
 app.set('view engine', 'ejs')
 app.set('views', `${dirname}/views/pages`)
 
+// Flash
+// app.use(flash())
+
 // Route handling
 app.use('/', router)
 app.use('/admin', adminRouter)
