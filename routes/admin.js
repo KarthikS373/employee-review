@@ -4,11 +4,22 @@ import Employee from '../models/Employee.js'
 
 const router = Router()
 
+// router.get('/showEmployee', async (req, res) => {
+//   console.log('Reached Show Employee')
+//   await Employee.find({}).exec((err, data) => {
+//     if (err) throw err
+//     else {
+//       console.log(data)
+//       res.render('showEmployee', { title: 'Employee Records', record: data })
+//     }
+//   })
+// })
+
 router.get('/showEmployee', async (req, res) => {
   console.log('Reached Show Employee')
   const emplist = await Employee.find({})
   console.log(emplist)
-  res.redirect('/')
+  res.render('showEmployee', { title: 'Employee Records', record: emplist })
 })
 
 router.post('/add', async (req, res) => {
