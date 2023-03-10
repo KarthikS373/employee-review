@@ -4,6 +4,8 @@ import mongoose from 'mongoose'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+import adminRouter from './routes/admin.js'
+import employeeRouter from './routes/employee.js'
 import router from './routes/index.js'
 import { getMongoURI } from './utils/constants/db.js'
 import { getPort } from './utils/constants/port.js'
@@ -29,6 +31,8 @@ app.set('views', `${dirname}/views/pages`)
 
 // Route handling
 app.use('/', router)
+app.use('/admin', adminRouter)
+app.use('/employee', employeeRouter)
 
 // Error handling
 // Error 500 - Internal Server Error
