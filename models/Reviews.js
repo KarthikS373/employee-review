@@ -4,8 +4,9 @@ const { Schema, model } = mongoose
 
 const reviewsSchema = new Schema({
   reviewer: {
-    type: SchemaTypes.ObjectId,
-    ref: 'Employee',
+    // type: SchemaTypes.ObjectId,
+    // ref: 'Employee',
+    type: String,
     required: true,
   },
   review: {
@@ -13,8 +14,7 @@ const reviewsSchema = new Schema({
     required: true,
   },
   gotReviewed: {
-    type: SchemaTypes.ObjectId,
-    ref: 'Employee',
+    type: String,
     required: true,
   },
 })

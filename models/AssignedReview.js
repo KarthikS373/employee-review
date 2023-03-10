@@ -3,20 +3,15 @@ import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
 const assignedReviewSchema = new Schema({
-  email: {
+  reviewer: {
     type: String,
     required: true,
   },
-  name: {
+  toBeReviewed: {
     type: String,
-    required: true,
-  },
-  admin: Boolean,
-  password: {
-    pass: String,
     required: true,
   },
 })
 
-const AssignedReview = model('Employee', assignedReviewSchema)
+const AssignedReview = model('AssignedReview', assignedReviewSchema)
 export default AssignedReview
