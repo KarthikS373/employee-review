@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
 const assignedReviewSchema = new Schema({
-  reviewer: {
+  reviewFrom: {
     type: String,
     required: true,
   },
-  toBeReviewed: {
+  reviewFor: {
     type: String,
     required: true,
   },

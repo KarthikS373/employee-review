@@ -6,6 +6,11 @@ import Reviews from '../models/Reviews.js'
 
 const router = Router()
 
+// Defalut redirecters
+router.get(['', '/'], (req, res) => {
+  res.redirect('admin/showEmployee')
+})
+
 // Show employee list
 router.get('/showEmployee', async (req, res) => {
   console.log('Reached Show Employee')
@@ -16,7 +21,7 @@ router.get('/showEmployee', async (req, res) => {
 
 // Add new employee
 router.post('/add', async (req, res) => {
-  console.log('Reached Add')
+  // console.log('Reached Add')
   console.log(req.body)
   const emp = await Employee.create({
     email: req.body.email,
@@ -85,4 +90,20 @@ router.post('/assign', async (req, res) => {
   )
 })
 
+// Assign Review Task
+router.post('/assignReviewTask', async (req, res) => {
+  // console.log(req.query.id)
+  // console.log(req.body.reviewFor)
+  await AssignedReview.create({
+    reviewFrom: req.query.id,
+    reviewFor: req.body.reviewFor,
+  })
+    .then(() => {
+      // console.log('Assigned new Task')
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+  res.redirect(req.baseUrl)
+})
 export default router
