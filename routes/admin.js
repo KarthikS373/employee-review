@@ -18,14 +18,6 @@ router.get('/showEmployee', async (req, res) => {
 router.post('/add', async (req, res) => {
   console.log('Reached Add')
   console.log(req.body)
-  // if (Employee.exists({ email: req.body.email })) {
-  //   console.log('Email id already exits')
-  //   // res.send(' <p class="alert alert-danger">Email ID is already in use</p>')
-  //   // res.redirect('addEmployee')
-  //   req.flash('error', 'Same Email Id already in use')
-  //   res.redirect('/addEmployee')
-  //   return
-  // }
   const emp = await Employee.create({
     email: req.body.email,
     name: req.body.name,
@@ -45,13 +37,13 @@ router.post('/add', async (req, res) => {
 
 // Add employee get call
 router.get('/addEmployee', (req, res) => {
-  console.log('Loading Add Employee Page')
+  // console.log('Loading Add Employee Page')
   res.render('addEmployee', { status: 'good', msg: '' })
 })
 
 // Remove employee
 router.post('/remEmployee', async (req, res) => {
-  console.log('Reached delete Employee')
+  // console.log('Reached delete Employee')
   console.log(req.body.id)
   console.log(
     await Employee.deleteOne({ _id: req.body.id })
@@ -72,19 +64,25 @@ router.get('/reviews', async (req, res) => {
   res.render('admin', { title: 'Reviews Records', records: reviewList })
 })
 
-// Asign a Review Task
+// Assign Review Task Form
 router.post('/assign', async (req, res) => {
-  const task = await AssignedReview.create({
-    reviewer: req.body.reviewer,
-    toBeReviewed: req.body.review,
-    gotReviewed: req.body.gotReviewed,
-  })
-    .then(() => {
-      console.log('New emplyee added')
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+  const emplist = await Employee.find({})
+  return res.render(
+    'assignReview.ejs',
+    {
+      title: 'Assign Review Task Form',
+      records: emplist,
+      name: req.body.name,
+      email: req.body.email,
+    },
+    (er, html) => {
+      if (er) {
+        console.log(er)
+      } else {
+        res.send(html)
+      }
+    }
+  )
 })
 
 export default router
