@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <h2 class="text-center">All Employees</h2>
     <table class="table table-striped table-primary">
         <thead>
             <tr>
@@ -37,10 +38,14 @@
                             <%= row.admin %>
                         </td>
                         <td class="d-flex flex-row justify-content-evenly text-center border border-2">
-                          <button style="border:none" onclick="removerow(`<%= row._id %>`)" id="rembtn" class="bg-danger">Delete</button>
-                          <button style="border:none" onclick="assignrev()" id="reviewbtn" class="bg-danger">Assign Review</button>
-                          <button style="border:none" onclick="edituser()" id="edituserbtn" class="bg-danger">Edit User</button>
-                          <button style="border:none" onclick="editrev()" id="editrevbtn" class="bg-danger">Edit Review</button>
+                            <button style="border:none" onclick="removerow(`<%= row._id %>`)" id="rembtn"
+                                class="bg-danger">Delete</button>
+                            <button style="border:none" onclick="assignrev(`<%= row.email %>`,`<%= row.name %>`)"
+                                id="reviewbtn" class="bg-danger">Assign Review</button>
+                            <button style="border:none" onclick="edituser()" id="edituserbtn" class="bg-danger">Edit
+                                User</button>
+                            <button style="border:none" onclick="editrev()" id="editrevbtn" class="bg-danger">Edit
+                                Review</button>
                         </td>
                     </tr>
                     <% })}else{ %>
@@ -72,6 +77,25 @@
                     else alert('Deletion Failed !')
                 });
 
+        }
+        function assignrev(email, name) {
+            email = email.trim()
+            name = name.trim()
+            data = JSON.stringify({ email: email, name: name })
+
+            fetch('/admin/assign', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+            .then(response => {console.log(response);return response.text()})
+                .then(json => {
+                    document.write(json)
+                    console.log("Assign Review Task form Rendered")
+                }).catch(e => console.log(e))
         }
     </script>
 </body>
