@@ -3,7 +3,7 @@ import mongoose, { SchemaTypes } from 'mongoose'
 const { Schema, model } = mongoose
 
 const reviewsSchema = new Schema({
-  reviewer: {
+  reviewFor: {
     // type: SchemaTypes.ObjectId,
     // ref: 'Employee',
     type: String,
@@ -13,7 +13,7 @@ const reviewsSchema = new Schema({
     type: String,
     required: true,
   },
-  gotReviewed: {
+  reviewFrom: {
     type: String,
     required: true,
   },

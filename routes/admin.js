@@ -62,7 +62,7 @@ router.get('/updateEmployee', async (req, res) => {
 // Add new employee
 router.post('/add', async (req, res) => {
   // console.log('Reached Add')
-  console.log(req.body)
+  // console.log(req.body)
   const emp = await Employee.create({
     email: req.body.email,
     name: req.body.name,
@@ -143,12 +143,8 @@ router.post('/assignReviewTask', async (req, res) => {
     reviewFrom: req.query.id,
     reviewFor: req.body.reviewFor,
   })
-    .then(() => {
-      // console.log('Assigned new Task')
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+
   res.redirect(req.baseUrl)
 })
+
 export default router

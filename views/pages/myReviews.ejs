@@ -12,7 +12,7 @@
                 <% records.forEach(function(row){ %>
                     <tr>
                         <td class="text-center border border-2 col-3">
-                            <%= row.name %>
+                            <%= row.reviewFrom %>
                         </td>
                         <td class="text-center border border-2 col-9">
                             <%= row.review %>
@@ -37,20 +37,57 @@
             </tr>
         </thead>
         <tbody>
+            <%if (work.length>0){ %>
+                <% work.forEach(function(row){ %>
+
                     <tr>
+                        <%# done brn click hone par niche ke dono values chaihye %>
                         <td class="text-center border border-2 col-3">
-                            <!-- import name -->name
+                          <%= row.reviewFor %>
                         </td>
                         <td class="text-center border border-2 col-9">
-                            <input type="text" class="col-10">
-                            <button class="col-1 btn btn-danger">Done</button>
+                            <input type="text" class="col-10"/>
+                            <button class="col-1 btn btn-danger" onclick="done(this,'<%= row.reviewFor %>')">Done</button>
                         </td>
                     </tr>
+                    <% })}else{ %>
+                        <tr>
+                            <td class="text-center border border-2 col-12">
+                                No Reivew Task Assigned To You
+                            </td>
+                        </tr>
+                    <% } %>
         </tbody>
     </table>
-    <div class="text-center mt-4">
-        <button class="col-1 btn btn-danger">Back</button>
-    </div>
+   
+    <script>
+        function done(btn,reviewFor){
+            let remarks=btn.parentElement.getElementsByTagName('input')[0].value;
+            if(!remarks){alert("Enter Review");return;}
+            // console.log(btn.parentElement.parentElement)
+            btn.parentElement.parentElement.remove();
+             data =  JSON.stringify({review:remarks,reviewFor:reviewFor})
+            
+            fetch('/addReview', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+                // .then((response) =>
+                //     {
+                        
+                //     response.json()
+                //     }
+                // )
+                // .then((result) => {
+                    
+                    
+                // }).catch(er=>console.log(er))
+        }
+    </script>
 </body>
 
 </html>

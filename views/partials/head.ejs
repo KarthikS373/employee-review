@@ -13,8 +13,9 @@
             <b>Employee Review Manager System</b>
         </div>
         <div class="d-flex flex-row col-9 bg-danger justify-content-end">
-            <button class="mx-3 col-2 bg-success border border-success" >All Employees</button>
-            <button class="mx-3 col-2 bg-success border border-success" >My Reviews</button>
+            <button class="mx-3 col-2 bg-success border border-success" onclick="AddEmployee()">Add Employees</button>
+            <button class="mx-3 col-2 bg-success border border-success" onclick="showEmployee()">All Employees</button>
+            <button class="mx-3 col-2 bg-success border border-success" onclick="myReviews('/admin/myReviews')">My Reviews</button>
             <button class="mx-3 col-2 bg-success border border-success "  onclick="logOut()">Log Out</button>
         </div>
     </div>
@@ -25,7 +26,7 @@
         </div>
         <div class="d-flex flex-row col-10 bg-danger justify-content-end">
             
-            <button class="mx-3 col-1 bg-success border border-success" onclick="myReviews()">My Reviews</button>
+            <button class="mx-3 col-1 bg-success border border-success" onclick="myReviews('/employee/myReviews')">My Reviews</button>
             <button class="mx-3 col-1 bg-success border border-success" onclick="logOut()">Log Out</button>
         </div>
     </div>
@@ -38,13 +39,38 @@
         }console.log("Logged out successfuly");console.log(res)})
             .catch(err=>console.log(err))
         }
-
-        function onReview(){
-            fetch("myReview")
+        function myReviews(){
+            const url='/myReviews'
+            fetch(url).then((res)=>{ if (res.redirected) {
+            window.location.href = res.url;
+        }console.log("Redirectd to showMyReviews Employee");console.log(res)})
+            .catch(err=>console.log(err))
+            // .catch(err=>console.log(err))
+        }
+      
+        function showEmployee(){
+            fetch("/admin")
             .then((res)=>{ if (res.redirected) {
             window.location.href = res.url;
-        }console.log("Logged out successfuly");console.log(res)})
+        }console.log("Moved to Show Employee");console.log(res)})
             .catch(err=>console.log(err))
+        
+        }
+        function AddEmployee(){
+            fetch('/admin/addEmployee',{
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                // body: data
+            })
+            .then(response => {console.log(response);return response.text()})
+                .then(json => {
+                    document.write(json)
+                    console.log("Add Employee form rendered")
+                }).catch(e => console.log(e))
+        
         }
     </script>
 </head>
