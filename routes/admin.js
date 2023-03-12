@@ -12,7 +12,7 @@ router.use('', adminAuth)
 
 // Defalut redirecters
 router.get(['', '/'], (req, res) => {
-  res.redirect('admin/showEmployee')
+  res.redirect('/admin/showEmployee')
 })
 
 // Show employee list
