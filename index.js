@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import mongoStore from 'connect-mongo'
 import Express, { static as serveStaticFiles } from 'express'
 import session from 'express-session'
+import flash from 'modern-flash'
 import mongoose from 'mongoose'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -43,12 +44,12 @@ app.set('view engine', 'ejs')
 app.set('views', `${dirname}/views/pages`)
 
 // Session Creation
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 app.use(
   session({
     secret: SESSION_KEY,
     resave: false,
-    name: 'heel',
+    name: 'Employee Session',
     saveUninitialized: false,
     cookie: { maxAge: 100000 * 60 * 30 * 60 },
     store: sessionStorage,
@@ -63,7 +64,7 @@ app.use(
 //   })
 // )
 // Flash
-// app.use(flash())
+app.use(flash())
 
 // Route handling
 // app.get('/', (req, res) => {
