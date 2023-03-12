@@ -8,15 +8,24 @@
             </tr>
         </thead>
         <tbody>
+            <%if (records.length>0){ %>
+                <% records.forEach(function(row){ %>
                     <tr>
                         <td class="text-center border border-2 col-3">
-                            <!-- import name -->name
+                            <%= row.name %>
                         </td>
                         <td class="text-center border border-2 col-9">
-                            <!-- imort review -->
+                            <%= row.review %>
                         </td>
                     </tr>
-        </tbody>
+                    <% })}else{ %>
+                        <tr>
+                            <td class="text-center border border-2 col-12">
+                                No reviews for you
+                            </td>
+                        </tr>
+                        <% } %>
+        </tbody> 
     </table>
     <hr>
     <table class="table table-striped table-primary">
