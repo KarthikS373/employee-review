@@ -1,10 +1,14 @@
 import { Router } from 'express'
 
+import adminAuth from '../middlewares/adminAuth.js'
 import AssignedReview from '../models/AssignedReview.js'
 import Employee from '../models/Employee.js'
 import Reviews from '../models/Reviews.js'
 
 const router = Router()
+
+// Route Protection
+router.use('', adminAuth)
 
 // Defalut redirecters
 router.get(['', '/'], (req, res) => {
@@ -16,7 +20,43 @@ router.get('/showEmployee', async (req, res) => {
   console.log('Reached Show Employee')
   const emplist = await Employee.find({})
   // console.log(emplist)
-  res.render('admin', { title: 'Employee Records', records: emplist })
+  res.render('admin', { title: 'Employee Records', records: emplist, isAdmin: req.session.isAdmin })
+})
+
+// Update Employee
+router.post('/updateEmployee', async (req, res) => {
+  // console.log('Reached Add')
+  console.log(req.body)
+  await Employee.findOne({ email: req.body.email })
+    .then((doc) => {
+      /* eslint-disable no-param-reassign */
+      doc.name = req.body.name
+      doc.admin = req.body.admin === 'on'
+      doc.password = req.body.password
+      /* eslint-enable no-param-reassign */
+      doc
+        .save()
+        .then((r) => {
+          console.log('Update Successful')
+        })
+        .catch((er) => console.log(er))
+
+      res.redirect('showEmployee')
+      // console.log(doc)
+    })
+    .catch((err) => console.log(err))
+})
+
+router.get('/updateEmployee', async (req, res) => {
+  await Employee.findOne({ email: req.query.email })
+    .then((result) => {
+      res.render('changeEmployee', {
+        title: 'Update Employee form',
+        emp: result,
+        isAdmin: req.session.isAdmin,
+      })
+    })
+    .catch((err) => console.log(err))
 })
 
 // Add new employee
@@ -43,7 +83,7 @@ router.post('/add', async (req, res) => {
 // Add employee get call
 router.get('/addEmployee', (req, res) => {
   // console.log('Loading Add Employee Page')
-  res.render('addEmployee', { status: 'good', msg: '' })
+  res.render('addEmployee', { title: 'Add Employee', isAdmin: req.session.isAdmin })
 })
 
 // Remove employee
@@ -66,7 +106,11 @@ router.post('/remEmployee', async (req, res) => {
 // Reviews List
 router.get('/reviews', async (req, res) => {
   const reviewList = await Reviews.find({})
-  res.render('admin', { title: 'Reviews Records', records: reviewList })
+  res.render('admin', {
+    title: 'Reviews Records',
+    isAdmin: req.session.isAdmin,
+    records: reviewList,
+  })
 })
 
 // Assign Review Task Form
@@ -77,6 +121,7 @@ router.post('/assign', async (req, res) => {
     {
       title: 'Assign Review Task Form',
       records: emplist,
+      isAdmin: req.session.isAdmin,
       name: req.body.name,
       email: req.body.email,
     },

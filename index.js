@@ -1,14 +1,18 @@
 import bodyParser from 'body-parser'
+import mongoStore from 'connect-mongo'
 import Express, { static as serveStaticFiles } from 'express'
+import session from 'express-session'
 import mongoose from 'mongoose'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+import adminAuth from './middlewares/adminAuth.js'
 import adminRouter from './routes/admin.js'
 import employeeRouter from './routes/employee.js'
 import router from './routes/index.js'
 import { getMongoURI } from './utils/constants/db.js'
 import { getPort } from './utils/constants/port.js'
+import { getSessionKey } from './utils/constants/session.js'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -17,6 +21,15 @@ const app = Express()
 
 const PORT = getPort()
 const MONGO_URI = getMongoURI()
+const SESSION_KEY = getSessionKey()
+
+// Mongo DB Session
+const sessionStorage = mongoStore.create({
+  mongoUrl: MONGO_URI,
+  collection: session,
+  ttl: 60 * 60,
+  autoRemove: 'native',
+})
 
 // Parsers
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -29,12 +42,39 @@ app.use(serveStaticFiles('public'))
 app.set('view engine', 'ejs')
 app.set('views', `${dirname}/views/pages`)
 
+// Session Creation
+app.set('trust proxy', 1)
+app.use(
+  session({
+    secret: SESSION_KEY,
+    resave: false,
+    name: 'heel',
+    saveUninitialized: false,
+    cookie: { maxAge: 100000 * 60 * 30 * 60 },
+    store: sessionStorage,
+  })
+)
+// app.use(
+//   session({
+//     secret: 'keyboard cat',
+//     name: 'teste', // Customise the name to 'test'
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// )
 // Flash
 // app.use(flash())
 
 // Route handling
+// app.get('/', (req, res) => {
+//   req.session.username = 'hello'
+//   res.send('senssion name set')
+// })
+// // app.get('/get', (req, res) => {
+//   res.send('session name is ' + req.session.username)
+// })
 app.use('/', router)
-app.use('/admin', adminRouter)
+app.use('/admin', adminAuth, adminRouter)
 app.use('/employee', employeeRouter)
 
 // Error handling
