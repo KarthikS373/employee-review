@@ -33,7 +33,7 @@
                                 id="reviewbtn" class="bg-danger">Assign Review</button>
                             <button style="border:none" onclick="edituser(`<%= row.email %>`)" id="edituserbtn" class="bg-danger">Edit
                                 User</button>
-                            <button style="border:none" onclick="editrev()" id="editrevbtn" class="bg-danger">Edit
+                            <button style="border:none" onclick="editrev(`<%= row.email %>`)" id="editrevbtn" class="bg-danger">Edit
                                 Review</button>
                         </td>
                     </tr>
@@ -105,6 +105,24 @@
                     console.log("Update Employee form rendered")
                 }).catch(e => console.log(e))
         }
+        function editrev(email){
+            email = email.trim()
+            // data = JSON.stringify({ email: email})
+            fetch('showReview?id='+email ,{
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                // body: data
+            })
+            .then(response => {console.log(response);return response.text()})
+                .then(json => {
+                    document.write(json)
+                    console.log("Edit Review form rendered")
+                }).catch(e => console.log(e))
+        }
+        
     </script>
 </body>
 

@@ -147,4 +147,52 @@ router.post('/assignReviewTask', async (req, res) => {
   res.redirect(req.baseUrl)
 })
 
+// Edit Reiview
+// Show Review list
+router.get('/showReview', async (req, res) => {
+  console.log('Reached Show Review')
+  const revlist = await Reviews.find({ reviewFor: req.query.id })
+  // console.log(emplist)
+  res.render('showReview', {
+    title: 'Review Records',
+    records: revlist,
+    isAdmin: req.session.isAdmin,
+  })
+})
+
+// Update Employee
+router.post('/updateReview', async (req, res) => {
+  console.log('update review')
+  console.log(req.body)
+  await Reviews.findById(req.body.id)
+    .then((doc) => {
+      console.log(doc)
+      /* eslint-disable no-param-reassign */
+      doc.review = req.body.review
+      /* eslint-enable no-param-reassign */
+      doc
+        .save()
+        .then((r) => {
+          console.log('Update Successful')
+        })
+        .catch((er) => console.log(er))
+
+      res.redirect('showEmployee')
+      // console.log(doc)
+    })
+    .catch((err) => console.log(err))
+})
+
+router.post('/remReview', async (req, res) => {
+  await Reviews.deleteOne({
+    _id: req.body.id,
+  })
+    .then(() => {
+      console.log('Deleted Review')
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+})
+
 export default router
