@@ -12,11 +12,11 @@ router.use('', adminAuth)
 
 // Defalut redirecters
 router.get(['', '/'], (req, res) => {
-  res.redirect('/admin/showEmployee')
+  res.redirect('/admin/show-employee')
 })
 
 // Show employee list
-router.get('/showEmployee', async (req, res) => {
+router.get('/show-employee', async (req, res) => {
   console.log('Reached Show Employee')
   const emplist = await Employee.find({})
   // console.log(emplist)
@@ -24,7 +24,7 @@ router.get('/showEmployee', async (req, res) => {
 })
 
 // Update Employee
-router.post('/updateEmployee', async (req, res) => {
+router.post('/update-employee', async (req, res) => {
   // console.log('Reached Add')
   console.log(req.body)
   await Employee.findOne({ email: req.body.email })
@@ -41,13 +41,13 @@ router.post('/updateEmployee', async (req, res) => {
         })
         .catch((er) => console.log(er))
 
-      res.redirect('showEmployee')
+      res.redirect('show-employee')
       // console.log(doc)
     })
     .catch((err) => console.log(err))
 })
 
-router.get('/updateEmployee', async (req, res) => {
+router.get('/update-employee', async (req, res) => {
   await Employee.findOne({ email: req.query.email })
     .then((result) => {
       res.render('changeEmployee', {
@@ -77,17 +77,17 @@ router.post('/add', async (req, res) => {
     })
 
   console.log(emp)
-  res.redirect('showEmployee')
+  res.redirect('show-employee')
 })
 
 // Add employee get call
-router.get('/addEmployee', (req, res) => {
+router.get('/add-employee', (req, res) => {
   // console.log('Loading Add Employee Page')
   res.render('addEmployee', { title: 'Add Employee', isAdmin: req.session.isAdmin })
 })
 
 // Remove employee
-router.post('/remEmployee', async (req, res) => {
+router.post('/rem-employee', async (req, res) => {
   // console.log('Reached delete Employee')
   console.log(req.body.id)
   console.log(
@@ -136,7 +136,7 @@ router.post('/assign', async (req, res) => {
 })
 
 // Assign Review Task
-router.post('/assignReviewTask', async (req, res) => {
+router.post('/assign-review-task', async (req, res) => {
   // console.log(req.query.id)
   // console.log(req.body.reviewFor)
   await AssignedReview.create({
@@ -149,7 +149,7 @@ router.post('/assignReviewTask', async (req, res) => {
 
 // Edit Reiview
 // Show Review list
-router.get('/showReview', async (req, res) => {
+router.get('/show-review', async (req, res) => {
   console.log('Reached Show Review')
   const revlist = await Reviews.find({ reviewFor: req.query.id })
   // console.log(emplist)
@@ -161,7 +161,7 @@ router.get('/showReview', async (req, res) => {
 })
 
 // Update Employee
-router.post('/updateReview', async (req, res) => {
+router.post('/update-review', async (req, res) => {
   console.log('update review')
   console.log(req.body)
   await Reviews.findById(req.body.id)
@@ -177,13 +177,13 @@ router.post('/updateReview', async (req, res) => {
         })
         .catch((er) => console.log(er))
 
-      res.redirect('showEmployee')
+      res.redirect('show-employee')
       // console.log(doc)
     })
     .catch((err) => console.log(err))
 })
 
-router.post('/remReview', async (req, res) => {
+router.post('/rem-review', async (req, res) => {
   await Reviews.deleteOne({
     _id: req.body.id,
   })

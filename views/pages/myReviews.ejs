@@ -41,7 +41,7 @@
                 <% work.forEach(function(row){ %>
 
                     <tr>
-                        <%# done brn click hone par niche ke dono values chaihye %>
+                        
                         <td class="text-center border border-2 col-3">
                           <%= row.reviewFor %>
                         </td>
@@ -68,7 +68,7 @@
             btn.parentElement.parentElement.remove();
              data =  JSON.stringify({review:remarks,reviewFor:reviewFor})
             
-            fetch('/addReview', {
+            fetch('/add-review', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
