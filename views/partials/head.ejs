@@ -40,7 +40,7 @@
             .catch(err=>console.log(err))
         }
         function myReviews(){
-            const url='/myReviews'
+            const url='/my-reviews'
             fetch(url).then((res)=>{ if (res.redirected) {
             window.location.href = res.url;
         }console.log("Redirectd to showMyReviews Employee");console.log(res)})
@@ -57,7 +57,7 @@
         
         }
         function AddEmployee(){
-            fetch('/admin/addEmployee',{
+            fetch('/admin/add-employee',{
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

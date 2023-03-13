@@ -5,7 +5,7 @@
             <tr>
                 <th class="bg-danger text-center border border-2">Name</th>
                 <th class="bg-danger text-center border border-2">Email</th>
-                <th class="bg-danger text-center border border-2">Password</th>
+                <!-- <th class="bg-danger text-center border border-2">Password</th> -->
                 <th class="bg-danger text-center border border-2">Is Admin</th>
                 <th class="bg-danger text-center border border-2">Functions</th>
             </tr>
@@ -20,9 +20,7 @@
                         <td class="text-center border border-2">
                             <%= row.email %>
                         </td>
-                        <td class="text-center border border-2">
-                            <%= row.password %>
-                        </td>
+
                         <td class="text-center border border-2">
                             <%= row.admin %>
                         </td>
@@ -51,7 +49,7 @@
             id = id.trim();
             let a = document.getElementById("rembtn");
             data = JSON.stringify({ id: id });
-            fetch('/admin/remEmployee', {
+            fetch('/admin/rem-employee', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -91,7 +89,7 @@
         function edituser(email){
             email = email.trim()
             // data = JSON.stringify({ email: email})
-            fetch('updateEmployee?email='+email ,{
+            fetch('update-employee?email='+email ,{
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -108,7 +106,7 @@
         function editrev(email){
             email = email.trim()
             // data = JSON.stringify({ email: email})
-            fetch('showReview?id='+email ,{
+            fetch('show-review?id='+email ,{
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

@@ -8,8 +8,8 @@ import Reviews from '../models/Reviews.js'
 const router = Router()
 
 // Auth for logged in
-router.use('/myReviews', loggedAuth)
-router.use('/showMyReviews', loggedAuth)
+router.use('/my-reviews', loggedAuth)
+router.use('/show-my-reviews', loggedAuth)
 
 // default login page
 router.get('/', (req, res) => {
@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     if (req.session.isAdmin) {
       res.redirect('/admin')
     } else {
-      res.redirect('/myReviews')
+      res.redirect('/my-reviews')
     }
   } else res.render('index', { flash: req.flash('msg') })
 })
@@ -38,7 +38,9 @@ router.post('/validate', async (req, res) => {
   } else {
     await Employee.findOne({ email: req.body.email })
       .then((result) => {
+        console.log(result)
         if (result) {
+          console.log(result)
           if (result.password === req.body.password) {
             console.log(result)
             req.session.logged = true
@@ -69,17 +71,14 @@ router.get('/logout', (req, res) => {
   req.session.regenerate(() => {
     res.redirect('/admin')
   })
-  // req.session.destroy(() => console.log('Session destroyed'))
-  // req.session.logged=false
-  // req.session.isAdmin=false
 })
 
 // Redirector for my reviews
-router.get('/myReviews', (req, res) => {
-  res.redirect('showMyReviews')
+router.get('/my-reviews', (req, res) => {
+  res.redirect('show-my-reviews')
 })
 // My reviews
-router.get('/showMyReviews', async (req, res) => {
+router.get('/show-my-reviews', async (req, res) => {
   console.log('Reached  my reviews')
 
   // let data
@@ -111,7 +110,7 @@ router.get('/showMyReviews', async (req, res) => {
   // res.render('myReviews', { email: req.session.email })
 })
 // Add Review
-router.post('/addReview', async (req, res) => {
+router.post('/add-review', async (req, res) => {
   await Reviews.create({
     reviewFor: req.body.reviewFor,
     review: req.body.review,

@@ -42,7 +42,7 @@
             // btn.parentElement.parentElement.remove();
             data =  JSON.stringify({review:remarks,id:id})
             
-            fetch('updateReview', {
+            fetch('update-review', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -58,7 +58,7 @@
             // btn.parentElement.parentElement.remove();
             data =  JSON.stringify({id:id})
             
-            fetch('remReview', {
+            fetch('rem-review', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

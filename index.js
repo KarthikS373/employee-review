@@ -24,6 +24,10 @@ const PORT = getPort()
 const MONGO_URI = getMongoURI()
 const SESSION_KEY = getSessionKey()
 
+// Admin Account
+// admin@gmail.com
+// password : 123567
+
 // Mongo DB Session
 const sessionStorage = mongoStore.create({
   mongoUrl: MONGO_URI,
@@ -55,25 +59,12 @@ app.use(
     store: sessionStorage,
   })
 )
-// app.use(
-//   session({
-//     secret: 'keyboard cat',
-//     name: 'teste', // Customise the name to 'test'
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// )
+
 // Flash
 app.use(flash())
 
 // Route handling
-// app.get('/', (req, res) => {
-//   req.session.username = 'hello'
-//   res.send('senssion name set')
-// })
-// // app.get('/get', (req, res) => {
-//   res.send('session name is ' + req.session.username)
-// })
+
 app.use('/', router)
 app.use('/admin', adminAuth, adminRouter)
 app.use('/employee', employeeRouter)
