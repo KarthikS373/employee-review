@@ -67,10 +67,10 @@
             })
             .then(response => {console.log(response);return response.text()})
                 .then(json => {
+                    document.open()
                     document.write(json)
                     console.log("Add Employee form rendered")
-                }).catch(e => console.log(e))
-        
+                }).catch(e => console.log(e))  
         }
     </script>
 </head>
